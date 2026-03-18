@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVIFY - Recuperar Contraseña</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            color: #ff6b6b;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #4ecdc4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .success-message {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-left: 6px solid #48bb78;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+        .simulation-badge {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+            font-size: 0.9em;
+            border: 1px dashed #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🛠️ SERVIFY</div>
+        <h1>🔐 Recuperar Contraseña</h1>
+        
+        {% if enviado %}
+            <div class="success-message">
+                <h2>📧 ¡Correo enviado!</h2>
+                <p>Hemos enviado instrucciones a <strong>{{ email }}</strong></p>
+                <p>⚠️ Modo simulación - No se envió un correo real</p>
+                <div style="margin-top: 20px;">
+                    <a href="/login" class="btn" style="width: auto; padding: 10px 20px;">Volver al Login</a>
+                </div>
+            </div>
+        {% else %}
+            <p style="text-align: center; margin-bottom: 30px;">Ingresa tu email y te enviaremos instrucciones</p>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" required placeholder="ejemplo@servify.co">
+                </div>
+                
+                <button type="submit" class="btn">📧 Enviar instrucciones</button>
+            </form>
+            
+            <div class="back-link">
+                <p><a href="/login">← Volver al inicio de sesión</a></p>
+                <p><a href="/">← Volver al inicio</a></p>
+            </div>
+            
+            <div class="simulation-badge">
+                ⚠️ MODO SIMULACIÓN - Proyecto Ingeniería de Software 2
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

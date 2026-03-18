@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVIFY - Plataforma de Servicios</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #2d3748;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            color: #718096;
+            font-size: 1.2em;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
+        }
+        .btn:hover {
+            background: #4ecdc4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .feature-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 4px solid #ff6b6b;
+        }
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border-left: 6px solid #ffc107;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #cbd5e0;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛠️</div>
+            <h1>SERVIFY</h1>
+            <p class="subtitle">Conectamos clientes con proveedores de servicios</p>
+        </div>
+        
+        <div class="menu">
+            <a href="/" class="btn">🏠 Inicio</a>
+            <a href="/register" class="btn">📝 Registrarse</a>
+            <a href="/login" class="btn">🔑 Iniciar Sesión</a>
+            <a href="/recover" class="btn">🔐 Recuperar Contraseña</a>
+            <a href="/profile" class="btn">👤 Mi Perfil</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Encuentra Servicios</h3>
+                <p>Profesionales verificados en tu ciudad</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💼</div>
+                <h3>Ofrece tus Servicios</h3>
+                <p>Conviértete en proveedor y gana dinero</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Calificaciones</h3>
+                <p>Sistema de reseñas y puntuaciones</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <h2>¿Qué tipo de usuario eres?</h2>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+                <div style="background: #ff6b6b; color: white; padding: 20px; border-radius: 12px; width: 200px;">
+                    <h3>👤 Cliente</h3>
+                    <p>Busco servicios profesionales</p>
+                </div>
+                <div style="background: #4ecdc4; color: white; padding: 20px; border-radius: 12px; width: 200px;">
+                    <h3>👨‍🔧 Proveedor</h3>
+                    <p>Ofrezco mis servicios</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <strong>⚠️ MODO SIMULACIÓN</strong>
+            <p>Esta es una demostración de SERVIFY para Ingeniería de Software 2. No se procesan datos reales.</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 SERVIFY - Proyecto de Ingeniería de Software 2</p>
+        </div>
+    </div>
+</body>
+</html>

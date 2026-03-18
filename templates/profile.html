@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVIFY - Mi Perfil</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            font-weight: bold;
+        }
+        .user-info h2 {
+            margin: 0;
+            color: #2d3748;
+        }
+        .user-type {
+            display: inline-block;
+            padding: 5px 15px;
+            background:{% if usuario.tipo == 'Proveedor' %}#4ecdc4{% else %}#ff6b6b{% endif %};
+            color: white;
+            border-radius: 50px;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 4px solid #ff6b6b;
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        .stat-label {
+            color: #718096;
+            margin-top: 5px;
+        }
+        .info-section {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .info-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            width: 150px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+        .info-value {
+            color: #2d3748;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #4ecdc4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .btn-secondary {
+            background: #718096;
+        }
+        .action-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .simulation-box {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border-left: 6px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="avatar">
+                {{ usuario.nombre[0] }}
+            </div>
+            <div class="user-info">
+                <h2>{{ usuario.nombre }}</h2>
+                <span class="user-type">{{ usuario.tipo }}</span>
+                <p style="color: #718096; margin: 5px 0;">{{ usuario.email }}</p>
+                <p style="color: #718096;">Miembro desde: {{ usuario.miembro_desde }}</p>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ usuario.servicios_contratados }}</div>
+                <div class="stat-label">Servicios Contratados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ usuario.servicios_ofrecidos }}</div>
+                <div class="stat-label">Servicios Ofrecidos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ usuario.calificacion }}</div>
+                <div class="stat-label">Calificación</div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3 style="margin-top: 0; color: #ff6b6b;">📋 Información Personal</h3>
+            
+            <div class="info-row">
+                <span class="info-label">Documento:</span>
+                <span class="info-value">{{ usuario.documento }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Teléfono:</span>
+                <span class="info-value">{{ usuario.telefono }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ciudad:</span>
+                <span class="info-value">{{ usuario.ciudad }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">{{ usuario.email }}</span>
+            </div>
+        </div>
+        
+        {% if usuario.tipo == 'Proveedor' %}
+        <div class="info-section">
+            <h3 style="margin-top: 0; color: #4ecdc4;">🔧 Servicios Ofrecidos</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px; background: white; margin: 5px 0; border-radius: 5px;">• Servicios de plomería</li>
+                <li style="padding: 8px; background: white; margin: 5px 0; border-radius: 5px;">• Reparaciones eléctricas</li>
+                <li style="padding: 8px; background: white; margin: 5px 0; border-radius: 5px;">• Mantenimiento general</li>
+            </ul>
+        </div>
+        {% endif %}
+        
+        <div class="action-buttons">
+            <a href="#" class="btn">✏️ Editar Perfil</a>
+            <a href="#" class="btn">📊 Ver Historial</a>
+            <a href="/" class="btn btn-secondary">🏠 Inicio</a>
+        </div>
+        
+        <div class="simulation-box">
+            <strong>⚠️ MODO SIMULACIÓN</strong>
+            <p>Perfil de demostración para Ingeniería de Software 2. Los datos mostrados son de ejemplo.</p>
+        </div>
+    </div>
+</body>
+</html>
