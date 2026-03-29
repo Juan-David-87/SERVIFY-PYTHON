@@ -45,11 +45,14 @@
         .user-type {
             display: inline-block;
             padding: 5px 15px;
-            background:{% if usuario.tipo == 'Proveedor' %}#4ecdc4{% else %}#ff6b6b{% endif %};
+            background: #ff6b6b;
             color: white;
             border-radius: 50px;
             font-size: 0.9em;
             margin-top: 5px;
+        }
+        .user-type.proveedor {
+            background: #4ecdc4;
         }
         .stats-grid {
             display: grid;
@@ -116,6 +119,12 @@
         .btn-secondary {
             background: #718096;
         }
+        .btn-danger {
+            background: #e53e3e;
+        }
+        .btn-danger:hover {
+            background: #c53030;
+        }
         .action-buttons {
             text-align: center;
             margin: 30px 0;
@@ -139,12 +148,12 @@
             </div>
             <div class="user-info">
                 <h2>{{ usuario.nombre }}</h2>
-                <span class="user-type">{{ usuario.tipo }}</span>
+                <span class="user-type {% if usuario.tipo == 'Proveedor' %}proveedor{% endif %}">{{ usuario.tipo }}</span>
                 <p style="color: #718096; margin: 5px 0;">{{ usuario.email }}</p>
                 <p style="color: #718096;">Miembro desde: {{ usuario.miembro_desde }}</p>
             </div>
         </div>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number">{{ usuario.servicios_contratados }}</div>
@@ -159,10 +168,9 @@
                 <div class="stat-label">Calificación</div>
             </div>
         </div>
-        
+
         <div class="info-section">
             <h3 style="margin-top: 0; color: #ff6b6b;">📋 Información Personal</h3>
-            
             <div class="info-row">
                 <span class="info-label">Documento:</span>
                 <span class="info-value">{{ usuario.documento }}</span>
@@ -180,7 +188,7 @@
                 <span class="info-value">{{ usuario.email }}</span>
             </div>
         </div>
-        
+
         {% if usuario.tipo == 'Proveedor' %}
         <div class="info-section">
             <h3 style="margin-top: 0; color: #4ecdc4;">🔧 Servicios Ofrecidos</h3>
@@ -191,13 +199,14 @@
             </ul>
         </div>
         {% endif %}
-        
+
         <div class="action-buttons">
             <a href="#" class="btn">✏️ Editar Perfil</a>
             <a href="#" class="btn">📊 Ver Historial</a>
             <a href="/" class="btn btn-secondary">🏠 Inicio</a>
+            <a href="/cerrar_sesion" class="btn btn-danger">🚪 Cerrar Sesión</a>
         </div>
-        
+
         <div class="simulation-box">
             <strong>⚠️ MODO SIMULACIÓN</strong>
             <p>Perfil de demostración para Ingeniería de Software 2. Los datos mostrados son de ejemplo.</p>
