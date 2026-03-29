@@ -61,13 +61,13 @@ def profile():
         'miembro_desde': 'Marzo 2026',
         'servicios_contratados': 5,
         'servicios_ofrecidos': 0,
-        'calificacion': '4.8 ⭐',
+        'calificacion': '4.7 ⭐',
         'telefono': '+57 300 987 6543',
         'ciudad': 'Bogotá',
         'documento': 'CC 123456789'
     }
     return render_template('profile.html', usuario=usuario)
 
-# Ejecutar la aplicación
+# Ejecutar la aplicación como simulación de flask del proyecto 
 if __name__ == '__main__':
     app.run(debug=True)

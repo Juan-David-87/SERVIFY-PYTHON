@@ -112,15 +112,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">🛠️ SERVIFY</div>
-        <h1>📝 Crear Cuenta</h1>
+        <div class="logo"> SERVIFY</div>
+        <h1> Crear Cuenta</h1>
         
         {% if registrado %}
             <div class="success-message">
-                <h2>✅ ¡Registro exitoso!</h2>
+                <h2> ¡Registro exitoso!</h2>
                 <p><strong>{{ nombre }}</strong> te has registrado como <strong>{{ tipo_usuario }}</strong></p>
                 <p>Email: {{ email }}</p>
-                <p>⚠️ Modo simulación - datos no almacenados</p>
+                <p> Modo simulación - datos no almacenados</p>
                 <div style="margin-top: 20px;">
                     <a href="/login" class="btn" style="width: auto; padding: 10px 20px;">Iniciar Sesión</a>
                     <a href="/" class="btn" style="width: auto; padding: 10px 20px; background: #718096;">Volver al Inicio</a>
@@ -142,10 +142,10 @@
                     <label>Tipo de usuario:</label>
                     <div class="radio-group">
                         <label class="radio-option">
-                            <input type="radio" name="tipo_usuario" value="Cliente" checked> 👤 Cliente
+                            <input type="radio" name="tipo_usuario" value="Cliente" checked>  Cliente
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="tipo_usuario" value="Proveedor"> 👨‍🔧 Proveedor
+                            <input type="radio" name="tipo_usuario" value="Proveedor">  Proveedor
                         </label>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                     <input type="password" name="confirm_password" required placeholder="Repite tu contraseña">
                 </div>
                 
-                <button type="submit" class="btn">📝 Registrarse en SERVIFY</button>
+                <button type="submit" class="btn"> Registrarse en SERVIFY</button>
             </form>
             
             <div class="back-link">
@@ -169,7 +169,7 @@
             </div>
             
             <div class="simulation-badge">
-                ⚠️ MODO SIMULACIÓN - Proyecto Ingeniería de Software 2
+                 MODO SIMULACIÓN - Proyecto Ingeniería de Software 2
             </div>
         {% endif %}
     </div>
