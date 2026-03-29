@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a3d5c 0%, #2e86ab 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.6rem;
+        }
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            color: #1a3d5c;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-weight: bold;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #2e86ab;
+            outline: none;
+        }
+        .btn {
+            background: #1a3d5c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #2e86ab;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .error-message {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-left: 6px solid #f56565;
+        }
+        .back-link { text-align: center; margin-top: 20px; }
+        .back-link a { color: #2e86ab; text-decoration: none; }
+        .back-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Servify</div>
+        <h1> Iniciar Sesión</h1>
+
+        {% if error %}
+        <div class="error-message">
+            <p> Credenciales incorrectas. Inténtalo de nuevo.</p>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required placeholder="ejemplo@hospital.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" name="contrasena" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn">🔑 Iniciar Sesión</button>
+        </form>
+
+        <div class="back-link">
+            <p><a href="/">← Volver al inicio</a></p>
+        </div>
+    </div>
+</body>
+</html>
