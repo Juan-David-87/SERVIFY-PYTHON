@@ -58,9 +58,9 @@ def profile():
         'nombre': 'Carlos Rodríguez',
         'email': 'carlos@servify.co',
         'tipo': 'Cliente',  # Puede ser 'Cliente' o 'Proveedor'
-        'miembro_desde': 'Marzo 2026',
-        'servicios_contratados': 5,
-        'servicios_ofrecidos': 0,
+        'miembro_desde': 'Abril 2026',
+        'servicios_contratados': 7,
+        'servicios_ofrecidos': 4,
         'calificacion': '4.7 ⭐',
         'telefono': '+57 300 987 6543',
         'ciudad': 'Bogotá',
