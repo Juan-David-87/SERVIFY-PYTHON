@@ -1,5 +1,26 @@
-__pycache__/
-*.pyc
+# Entornos virtuales (Muy importante)
 .venv/
+venv/
+env/
+ENV/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Herramientas de Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Variables de entorno (Seguridad)
+.env
+.flaskenv
+
+# VS Code
 .vscode/
-node_modules/
+
+# Archivos de SO
+.DS_Store
+Thumbs.db
