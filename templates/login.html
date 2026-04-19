@@ -3,162 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SERVIFY - Iniciar Sesión</title>
+    <title>SERVIFY — Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
-            margin: 0;
-            padding: 20px;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {--navy: #0d1b2a;
+            --navy-mid: #1a2e45;
+            --navy-soft: #243b55;
+            --accent: #2eb8a0;
+            --accent-light: #3dd6c0;
+            --accent-dim: rgba(46,184,160,0.12);
+            --white: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-light: #cbd5e1;
+            --border: rgba(255,255,255,0.08);
+            --card-bg: rgba(255,255,255,0.04);
+            --input-bg: rgba(255,255,255,0.05);}
+        body {font-family: 'DM Sans', sans-serif;
+            background: var(--navy);
+            color: var(--white);
             min-height: 100vh;
-        }
-        .container {
-            max-width: 450px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            color: #2d3748;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo {
-            text-align: center;
-            font-size: 32px;
-            color: #ff6b6b;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #4a5568;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;}
+        body::before {content: '';
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(46,184,160,0.07) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;}
+        nav {position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            height: 70px;
+            background: rgba(13,27,42,0.85);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);}
+        .nav-logo {display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;}
+        .nav-logo-icon {width: 34px; height: 34px;
+            background: var(--accent);
             border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        input:focus {
-            border-color: #ff6b6b;
-            outline: none;
-        }
-        .btn {
-            background: #ff6b6b;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            background: #4ecdc4;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        .success-message {
-            background: #c6f6d5;
-            color: #22543d;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-left: 6px solid #48bb78;
-        }
-        .error-message {
-            background: #fed7d7;
-            color: #742a2a;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-left: 6px solid #f56565;
-        }
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .back-link a {
-            color: #ff6b6b;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;}
+        .nav-logo-text {font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+            letter-spacing: 1px;}
+        .nav-actions {display: flex;
+            align-items: center;
+            gap: 12px;}
+        .btn-outline {padding: 8px 22px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-light);
             text-decoration: none;
-        }
-        .simulation-badge {
-            background: #f7fafc;
-            padding: 15px;
+            font-size: 0.88rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s;}
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent-light); }
+        .btn-primary-nav {padding: 8px 22px;
+            border-radius: 6px;
+            background: var(--accent);
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;}
+        .btn-primary-nav:hover { background: var(--accent-light); }
+        main {flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 60px;
+            position: relative;
+            z-index: 1;}
+        .login-wrapper {width: 100%;
+            max-width: 440px;}
+        .login-card {background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 44px 40px;
+            backdrop-filter: blur(10px);}
+        .card-header {text-align: center;
+            margin-bottom: 36px;}
+        .card-header h1 {font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: var(--white);
+            margin-bottom: 8px;}
+        .card-header p {font-size: 0.9rem;
+            color: var(--text-muted);}
+        .form-group {margin-bottom: 20px;}
+        label {display: block;
+            font-size: 0.83rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;}
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
             border-radius: 8px;
+            font-size: 0.93rem;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--white);
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;}
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder { color: var(--text-muted); }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--accent);
+            background: rgba(46,184,160,0.06);}
+        .form-row {display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;}
+        .checkbox-label {display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            cursor: pointer;}
+        input[type="checkbox"] {width: 16px; height: 16px;
+            accent-color: var(--accent);
+            cursor: pointer;}
+        .forgot-link {font-size: 0.84rem;
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: opacity 0.2s;}
+        .forgot-link:hover { opacity: 0.75; }
+        .btn-submit {width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            color: var(--navy);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;}
+        .btn-submit:hover {background: var(--accent-light);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(46,184,160,0.22);}
+        .divider {display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 28px 0;}
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);}
+        .divider span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;}
+        .card-footer {
             text-align: center;
-            margin-top: 20px;
-            color: #718096;
-            font-size: 0.9em;
-            border: 1px dashed #cbd5e0;
-        }
+            margin-top: 24px;}
+        .card-footer p {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;}
+        .card-footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;}
+        .card-footer a:hover { opacity: 0.75; }
+        .success-box {
+            background: rgba(46,184,160,0.08);
+            border: 1px solid rgba(46,184,160,0.25);
+            border-radius: 12px;
+            padding: 32px 28px;
+            text-align: center;
+            margin-bottom: 24px;}
+        .success-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            border: 1px solid rgba(46,184,160,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            margin: 0 auto 16px;}
+        .success-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 8px;}
+        .success-box p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 4px; }
+        .success-box strong { color: var(--accent-light); }
+        .success-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 22px;
+            flex-wrap: wrap;}
+        .btn-success {
+            padding: 10px 22px;
+            border-radius: 7px;
+            background: var(--accent);
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;}
+        .btn-success:hover { background: var(--accent-light); }
+        .btn-ghost {
+            padding: 10px 22px;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            border: 1px solid var(--border);
+            transition: all 0.2s;}
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--white); }
+        .error-box {
+            background: rgba(226,75,74,0.08);
+            border: 1px solid rgba(226,75,74,0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;}
+        .error-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #e24b4a;
+            flex-shrink: 0;
+            margin-top: 6px;}
+        .error-box p {
+            font-size: 0.85rem;
+            color: #f09595;
+            line-height: 1.5;}
+        .demo-badge {
+            text-align: center;
+            margin-top: 28px;}
+        .demo-badge span {
+            display: inline-block;
+            background: rgba(232,201,106,0.08);
+            border: 1px solid rgba(232,201,106,0.18);
+            color: #e8c96a;
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;}
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;}
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">🛠️ SERVIFY</div>
-        <h1>🔑 Iniciar Sesión</h1>
-        
-        {% if logeado %}
-            <div class="success-message">
-                <h2>✅ ¡Sesión iniciada!</h2>
-                <p>Has accedido como <strong>{{ email }}</strong></p>
-                <p>⚠️ Modo simulación</p>
-                <div style="margin-top: 20px;">
-                    <a href="/profile" class="btn" style="width: auto; padding: 10px 20px;">Ver Perfil</a>
-                    <a href="/" class="btn" style="width: auto; padding: 10px 20px; background: #718096;">Volver al Inicio</a>
-                </div>
-            </div>
-        {% else %}
-            {% if error %}
-                <div class="error-message">
-                    <p>❌ Credenciales inválidas</p>
-                    <p style="font-size: 0.9em;">Usa cualquier email con @</p>
-                </div>
-            {% endif %}
-            
-            <form method="POST">
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" name="email" required placeholder="ejemplo@servify.co">
-                </div>
-                
-                <div class="form-group">
-                    <label>Contraseña:</label>
-                    <input type="password" name="password" required placeholder="••••••••">
-                </div>
-                
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="recordar"> Recordarme
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn">🔑 Iniciar Sesión</button>
-            </form>
-            
-            <div class="back-link">
-                <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
-                <p><a href="/recover">¿Olvidaste tu contraseña?</a></p>
-                <p><a href="/">← Volver al inicio</a></p>
-            </div>
-            
-            <div class="simulation-badge">
-                MODO SIMULACIÓN - Proyecto Ingeniería de Software 2
-            </div>
-        {% endif %}
-    </div>
+    <!-- NAVBAR -->
+    <nav>
+        <a class="nav-logo" href="/">
+            <div class="nav-logo-icon">🛠</div>
+            <span class="nav-logo-text">SERVIFY</span>
+        </a>
+        <div class="nav-actions">
+            <span style="font-size:0.85rem; color:var(--text-muted);">¿No tienes cuenta?</span>
+            <a href="/register" class="btn-primary-nav">Registrarse</a>
+        </div>
+    </nav>
+    <main>
+        <div class="login-wrapper">
+            <div class="login-card">
+                {% if logeado %}
+                    <!-- SUCCESS STATE -->
+                    <div class="success-box">
+                        <div class="success-icon">✓</div>
+                        <h2>¡Bienvenido de nuevo!</h2>
+                        <p>Sesión iniciada como</p>
+                        <p><strong>{{ email }}</strong></p>
+                        <div class="success-actions">
+                            <a href="/profile" class="btn-success">Ver mi perfil</a>
+                            <a href="/" class="btn-ghost">Ir al inicio</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- HEADER -->
+                    <div class="card-header">
+                        <h1>Iniciar sesión</h1>
+                        <p>Accede a tu cuenta de SERVIFY</p>
+                    </div>
+                    <!-- ERROR -->
+                    {% if error %}
+                    <div class="error-box">
+                        <div class="error-dot"></div>
+                        <p>Credenciales inválidas. Verifica tu email y contraseña e intenta de nuevo.</p>
+                    </div>
+                    {% endif %}
+                    <!-- FORM -->
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" name="password" required placeholder="••••••••">
+                        </div>
+                        <div class="form-row">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="recordar">
+                                Recordarme
+                            </label>
+                            <a href="/recover" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <button type="submit" class="btn-submit">Iniciar sesión</button>
+                    </form>
+                    <div class="divider"><span>¿Nuevo en SERVIFY?</span></div>
+                    <div class="card-footer">
+                        <p>¿Aún no tienes cuenta? <a href="/register">Regístrate gratis</a></p>
+                        <p style="margin-top:10px;"><a href="/" style="color:var(--text-muted); font-size:0.82rem;">← Volver al inicio</a></p>
+                    </div>
+                {% endif %}
+    </main>
+    <footer>
+        © 2026 SERVIFY — Todos los derechos reservados
+    </footer>
 </body>
 </html>
