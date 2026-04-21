@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import create_user, get_user_by_email
+from models import create_user, create_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
@@ -16,6 +16,7 @@ def register():
     if request.method == "POST":
         name = request.form["name"]
         email = request.form["email"]
+        phone = request.form["phone"]
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
         tipo_usuario = request.form["tipo_usuario"]
@@ -32,7 +33,7 @@ def register():
         password_hash = generate_password_hash(password)
 
         # 💾 Guardar en BD
-        create_user(name, email, password_hash, tipo_usuario)
+        create_user(name, email, phone, password_hash, tipo_usuario)
 
         return render_template(
             "register.html",
@@ -54,9 +55,7 @@ def login():
         user = get_user_by_email(email)
 
         if user and check_password_hash(user["password_hash"], password):
-            # ✅ Guardar sesión
             session["user_id"] = user["id"]
-            session["user_name"] = user["name"]
             session["role"] = user["role"]
 
             return redirect('/profile')
@@ -71,13 +70,22 @@ def profile():
     if "user_id" not in session:
         return redirect('/login')
 
+    servicios = []
+
+    if session["role"] == "worker":
+        servicios = get_services_by_worker(session["user_id"])
+
+    user = get_user_by_id(session["user_id"])
+
     usuario = {
-        'nombre': session["user_name"],
-        'email': 'No cargado aún',
-        'tipo': session["role"]
+    'nombre': user["name"],
+    'email': user["email"],
+    'telefono': user.get("phone"),
+    'tipo': user["role"],
+    'servicios_ofrecidos': len(servicios)
     }
 
-    return render_template('profile.html', usuario=usuario)
+    return render_template('profile.html', usuario=usuario, servicios=servicios)
 
 # 🚪 LOGOUT
 @app.route('/logout')
@@ -93,6 +101,32 @@ def recover():
         return render_template('recover.html', enviado=True, email=email)
 
     return render_template('recover.html', enviado=False)
+
+@app.route('/my-services', methods=['GET', 'POST'])
+def my_services():
+    if "user_id" not in session:
+        return redirect('/login')
+
+    user = get_user_by_id(session["user_id"])
+
+    if not user:
+        return redirect('/login')
+
+    if user.get("role") != "worker":
+        return "Acceso denegado"
+
+    if request.method == 'POST':
+        service_id = request.form.get("service_id")
+        price = request.form.get("price")
+
+        if not service_id or not price:
+            return "Datos incompletos"
+
+        create_worker_service(session["user_id"], service_id, price)
+
+    services = get_all_services()
+
+    return render_template("servicios.html", services=services)
 
 # ▶️ RUN
 if __name__ == '__main__':
