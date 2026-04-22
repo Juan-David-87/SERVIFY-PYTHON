@@ -78,7 +78,12 @@ def get_services_by_worker(worker_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
-    sql = "SELECT s.name, ws.price FROM worker_services ws JOIN services s ON ws.service_id = s.id WHERE ws.worker_id = %s"
+    sql = """
+    SELECT ws.id, s.name, ws.price 
+    FROM worker_services ws 
+    JOIN services s ON ws.service_id = s.id 
+    WHERE ws.worker_id = %s
+    """
 
     cursor.execute(sql, (worker_id,))
     servicios = cursor.fetchall()
@@ -87,3 +92,15 @@ def get_services_by_worker(worker_id):
     conn.close()
 
     return servicios
+
+def delete_worker_service(service_id, worker_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    sql = "DELETE FROM worker_services WHERE id = %s AND worker_id = %s"
+
+    cursor.execute(sql, (service_id, worker_id))
+
+    conn.commit()
+    cursor.close()
+    conn.close()

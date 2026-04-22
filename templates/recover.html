@@ -5,154 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SERVIFY — Recuperar Contraseña</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        :root{--navy:#0d1b2a;
-            --accent:#2eb8a0;
-            --al:#3dd6c0;
-            --adim:rgba(46,184,160,.12);
-            --w:#f8fafc;
-            --muted:#94a3b8;
-            --light:#cbd5e1;
-            --border:rgba(255,255,255,.08);--ibg:rgba(255,255,255,.05)}
-        body{font-family:'DM Sans',sans-serif;
-            background:var(--navy);color:var(--w);
-            min-height:100vh;display:flex;
-            flex-direction:column}
-        body::before{content:'';
-            position:fixed;
-            top:-20%;left:50%;
-            transform:translateX(-50%);
-            width:700px;height:700px;
-            background:radial-gradient(circle,rgba(46,184,160,.07),transparent 65%);
-            pointer-events:none}
-        nav{position:fixed;top:0;left:0;right:0;
-            z-index:100;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:0 5%;
-            height:70px;
-            background:rgba(13,27,42,.85);
-            backdrop-filter:blur(18px);
-            border-bottom:1px solid var(--border)}
-        .logo{display:flex;
-            align-items:center;
-            gap:10px;text-decoration:none}
-        .logo-icon{width:34px;
-            height:34px;
-            background:var(--accent);
-            border-radius:8px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:16px}
-        .logo-text{font-family:'Playfair Display',serif;
-            font-size:1.4rem;color:var(--w);
-            letter-spacing:1px}
-        .btn-nav{padding:8px 22px;
-            border-radius:6px;
-            background:var(--accent);
-            color:var(--navy);
-            text-decoration:none;
-            font-size:.88rem;
-            font-weight:600;
-            transition:background .2s}
-        .btn-nav:hover{background:var(--al)}
-        main{flex:1;display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:100px 20px 60px;
-            position:relative;z-index:1}
-        .wrap{width:100%;max-width:440px}
-        .card{background:rgba(255,255,255,.03);
-            border:1px solid var(--border);
-            border-radius:20px;
-            padding:44px 40px;
-            backdrop-filter:blur(10px)}
-        .card-hd{text-align:center;margin-bottom:32px}
-        .card-hd h1{font-family:'Playfair Display',serif;font-size:1.9rem;margin-bottom:8px}
-        .card-hd p{font-size:.9rem;color:var(--muted)}
-        .fg{margin-bottom:20px}
-        label{display:block;
-            font-size:.83rem;
-            font-weight:500;
-            color:var(--light);
-            margin-bottom:8px}
-        input[type=email]{width:100%;
-            padding:12px 16px;
-            background:var(--ibg);
-            border:1px solid var(--border);
-            border-radius:8px;
-            font-size:.93rem;
-            font-family:'DM Sans',sans-serif;
-            color:var(--w);outline:none;
-            transition:border-color .2s,background .2s}
-        input[type=email]::placeholder{color:var(--muted)}
-        input[type=email]:focus{border-color:var(--accent);background:rgba(46,184,160,.06)}
-        .btn-sub{width:100%;padding:13px;
-            background:var(--accent);
-            color:var(--navy);border:none;
-            border-radius:8px;font-size:.95rem;
-            font-family:'DM Sans',sans-serif;
-            font-weight:600;cursor:pointer;
-            transition:all .25s}
-        .btn-sub:hover{background:var(--al);
-            transform:translateY(-1px);
-            box-shadow:0 6px 20px rgba(46,184,160,.22)}
-        .cfoot{text-align:center;margin-top:24px}
-        .cfoot a{font-size:.84rem;color:var(--al);text-decoration:none;display:block;margin-bottom:6px}
-        .cfoot a:hover{opacity:.75}
-        .success{background:rgba(46,184,160,.08);
-            border:1px solid rgba(46,184,160,.25);
-            border-radius:12px;
-            padding:32px 28px;
-            text-align:center}
-        .s-icon{width:56px;height:56px;
-            border-radius:50%;
-            background:var(--adim);
-            border:1px solid rgba(46,184,160,.3);
-            display:flex;align-items:center;
-            justify-content:center;font-size:22px;
-            margin:0 auto 16px}
-        .success h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px}
-        .success p{font-size:.88rem;color:var(--muted);margin-bottom:4px}
-        .success strong{color:var(--al)}
-        .btn-s{display:inline-block;
-            margin-top:20px;
-            padding:10px 24px;
-            border-radius:7px;
-            background:var(--accent);color:var(--navy);
-            text-decoration:none;font-size:.86rem;font-weight:600;transition:background .2s}
-        .btn-s:hover{background:var(--al)}
-        .badge{text-align:center;margin-top:28px}
-        .badge span{display:inline-block;
-            background:rgba(232,201,106,.08);
-            border:1px solid rgba(232,201,106,.18);
-            color:#e8c96a;padding:5px 16px;
-            border-radius:50px;font-size:.73rem;
-            letter-spacing:.5px}
-        footer{text-align:center;padding:20px;font-size:.78rem;color:var(--muted)}
-    </style>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
+
 <nav>
     <a class="logo" href="/"><span class="logo-text">SERVIFY</span></a>
-    <a href="/login" class="btn-nav">Iniciar sesión</a>
+    <a href="/login" class="btn-nav btn-nav-accent">Iniciar sesión</a>
 </nav>
-<main>
-    <div class="wrap">
-        <div class="card">
+
+<main class="main-center">
+    <div class="auth-wrapper">
+        <div class="auth-card">
             {% if enviado %}
-                <div class="success">
-                    <div class="s-icon">✉</div>
+                <div class="success-box">
+                    <div class="success-icon">✉</div>
                     <h2>¡Correo enviado!</h2>
                     <p>Enviamos instrucciones a</p>
                     <p><strong>{{ email }}</strong></p>
-                    <a href="/login" class="btn-s">Volver al login</a>
+                    <a href="/login" class="btn btn-accent">Volver al login</a>
                 </div>
             {% else %}
-                <div class="card-hd">
+                <div class="card-header">
                     <h1>Recuperar contraseña</h1>
                     <p>Te enviaremos instrucciones a tu correo</p>
                 </div>
@@ -161,14 +35,18 @@
                         <label for="email">Correo electrónico</label>
                         <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
                     </div>
-                    <button type="submit" class="btn-sub">Enviar instrucciones</button>
+                    <button type="submit" class="btn-submit">Enviar instrucciones</button>
                 </form>
-                <div class="cfoot">
-                    <a href="/login">← Volver al inicio de sesión</a>
-                    <a href="/" style="color:var(--muted);font-size:.82rem">← Volver al inicio</a>
+                <div class="auth-footer">
+                    <a href="/login" class="link-accent">← Volver al inicio de sesión</a>
+                    <a href="/" class="link-muted">← Volver al inicio</a>
                 </div>
             {% endif %}
+        </div>
+    </div>
 </main>
-<footer>© 2026 SERVIFY — Todos los derechos reservados</footer>
+
+<footer class="footer">© 2026 SERVIFY — Todos los derechos reservados</footer>
+
 </body>
 </html>

@@ -5,139 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SERVIFY — Editar Perfil</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        :root{--navy:#0d1b2a;
-            --accent:#2eb8a0;
-            --al:#3dd6c0;
-            --adim:rgba(46,184,160,.12);
-            --w:#f8fafc;--muted:#94a3b8;
-            --light:#cbd5e1;
-            --border:rgba(255,255,255,.08);
-            --ibg:rgba(255,255,255,.05)}
-        body{font-family:'DM Sans',sans-serif;
-            background:var(--navy);color:var(--w);
-            min-height:100vh;display:flex;
-            flex-direction:column}
-        body::before{content:'';
-            position:fixed;top:-20%;left:50%;
-            transform:translateX(-50%);
-            width:700px;height:700px;
-            background:radial-gradient(circle,rgba(46,184,160,.07),transparent 65%);
-            pointer-events:none}
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;
-            display:flex;align-items:center;
-            justify-content:space-between;
-            padding:0 5%;height:70px;
-            background:rgba(13,27,42,.85);
-            backdrop-filter:blur(18px);
-            border-bottom:1px solid var(--border)}
-        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-        .logo-icon{width:34px;
-            height:34px;
-            background:var(--accent);
-            border-radius:8px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:16px}
-        .logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--w);letter-spacing:1px}
-        .btn-nav{padding:8px 22px;
-            border-radius:6px;
-            background:transparent;
-            color:var(--light);
-            text-decoration:none;
-            font-size:.88rem;
-            font-weight:500;
-            border:1px solid var(--border);
-            transition:all .2s}
-        .btn-nav:hover{border-color:var(--accent);color:var(--al)}
-        main{flex:1;padding:100px 5% 60px;position:relative;z-index:1;max-width:620px;margin:0 auto;width:100%}
-        /* avatar upload */
-        .avatar-upload{display:flex;flex-direction:column;align-items:center;margin-bottom:32px;gap:12px}
-        .avatar-ring{position:relative;width:88px;height:88px;cursor:pointer}
-        .avatar-img{width:88px;
-            height:88px;border-radius:20px;
-            background:var(--adim);
-            border:1px solid rgba(46,184,160,.3);
-            display:flex;align-items:center;
-            justify-content:center;
-            font-family:'Playfair Display',serif;
-            font-size:2.2rem;color:var(--al);
-            overflow:hidden;transition:filter .2s}
-        .avatar-img img{width:100%;height:100%;object-fit:cover;display:none}
-        .avatar-ring:hover .avatar-img{filter:brightness(.6)}
-        .avatar-overlay{position:absolute;inset:0;
-            border-radius:20px;display:flex;
-            align-items:center;justify-content:center;
-            opacity:0;transition:opacity .2s;
-            font-size:.72rem;
-            font-weight:600;
-            color:var(--w);
-            letter-spacing:.5px}
-        .avatar-ring:hover .avatar-overlay{opacity:1}
-        #foto-input{display:none}
-        .avatar-hint{font-size:.78rem;color:var(--muted)}
-        /* sections */
-        .section{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
-        .section h3{font-size:.78rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-        .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-        .fg{margin-bottom:16px}
-        .fg:last-child{margin-bottom:0}
-        label{display:block;font-size:.83rem;font-weight:500;color:var(--light);margin-bottom:7px}
-        input[type=text],input[type=email],input[type=tel],input[type=password]{width:100%;
-            padding:11px 14px;
-            background:var(--ibg);
-            border:1px solid var(--border);
-            border-radius:8px;font-size:.92rem;
-            font-family:'DM Sans',sans-serif;
-            color:var(--w);outline:none;
-            transition:border-color .2s,background .2s}
-        input::placeholder{color:var(--muted)}
-        input:focus{border-color:var(--accent);background:rgba(46,184,160,.06)}
-        .pw-wrap{position:relative}
-        .pw-wrap input{padding-right:42px}
-        .pw-eye{position:absolute;right:12px;top:50%;
-            transform:translateY(-50%);
-            background:none;border:none;
-            color:var(--muted);cursor:pointer;
-            font-size:14px;padding:2px;
-            transition:color .2s}
-        .pw-eye:hover{color:var(--al)}
-        .hint{font-size:.76rem;color:var(--muted);margin-top:5px}
-        .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-        .btn{padding:11px 22px;
-            border-radius:8px;
-            text-decoration:none;
-            font-size:.88rem;font-family:'DM Sans',sans-serif;
-            font-weight:600;
-            transition:all .2s;
-            display:inline-block;
-            border:none;cursor:pointer}
-        .btn-accent{background:var(--accent);color:var(--navy)}
-        .btn-accent:hover{background:var(--al);transform:translateY(-1px);box-shadow:0 6px 20px rgba(46,184,160,.22)}
-        .btn-ghost{background:transparent;color:var(--light);border:1px solid var(--border)}
-        .btn-ghost:hover{border-color:rgba(255,255,255,.2);color:var(--w)}
-        /* success */
-        .toast{display:none;
-            background:rgba(46,184,160,.1);
-            border:1px solid rgba(46,184,160,.25);
-            border-radius:10px;padding:12px 18px;
-            margin-bottom:20px;font-size:.88rem;
-            color:var(--al);text-align:center}
-        .toast.show{display:block}
-        footer{text-align:center;padding:20px;font-size:.78rem;color:var(--muted)}
-    </style>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
+
 <nav>
     <a class="logo" href="/"><div class="logo-icon">🛠</div><span class="logo-text">SERVIFY</span></a>
     <a href="/profile" class="btn-nav">← Mi perfil</a>
 </nav>
-<main>
+
+<main class="main-narrow">
+
     <div id="toast" class="toast">✓ Perfil actualizado correctamente</div>
+
     <form method="POST" enctype="multipart/form-data" id="edit-form">
-        <!-- foto -->
+
+        <!-- Foto -->
         <div class="avatar-upload">
             <div class="avatar-ring" onclick="document.getElementById('foto-input').click()">
                 <div class="avatar-img" id="avatar-preview">
@@ -149,9 +32,10 @@
             <input type="file" id="foto-input" name="foto" accept="image/*">
             <span class="avatar-hint">JPG, PNG — máx. 2 MB</span>
         </div>
-        <!-- info básica -->
+
+        <!-- Info básica -->
         <div class="section">
-            <h3>Información Personal</h3>
+            <h3 class="section-label">Información Personal</h3>
             <div class="row2">
                 <div class="fg">
                     <label>Nombre</label>
@@ -167,9 +51,10 @@
                 <input type="email" name="email" value="{{ usuario.email }}" required>
             </div>
         </div>
-        <!-- contraseña -->
+
+        <!-- Contraseña -->
         <div class="section">
-            <h3>Cambiar Contraseña</h3>
+            <h3 class="section-label">Cambiar Contraseña</h3>
             <div class="fg">
                 <label>Contraseña actual</label>
                 <div class="pw-wrap">
@@ -195,10 +80,11 @@
             </div>
             <p class="hint">Déjalo en blanco si no deseas cambiar tu contraseña.</p>
         </div>
+
         {% if usuario.tipo == 'worker' %}
-        <!-- info proveedor -->
+        <!-- Info proveedor -->
         <div class="section">
-            <h3>Perfil Profesional</h3>
+            <h3 class="section-label">Perfil Profesional</h3>
             <div class="fg">
                 <label>Descripción / Especialidad</label>
                 <input type="text" name="descripcion" value="{{ usuario.descripcion or '' }}" placeholder="Ej: Plomero con 5 años de experiencia">
@@ -209,12 +95,37 @@
             </div>
         </div>
         {% endif %}
+
         <div class="actions">
             <button type="submit" class="btn btn-accent">Guardar cambios</button>
             <a href="/profile" class="btn btn-ghost">Cancelar</a>
         </div>
+
     </form>
 </main>
-<footer>© 2026 SERVIFY — Todos los derechos reservados</footer>
+
+<footer class="footer">© 2026 SERVIFY — Todos los derechos reservados</footer>
+
+<script>
+    function toggle(id, btn) {
+        const input = document.getElementById(id);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    document.getElementById('foto-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            const img = document.getElementById('preview-img');
+            const inicial = document.getElementById('avatar-inicial');
+            img.src = ev.target.result;
+            img.style.display = 'block';
+            if (inicial) inicial.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+
 </body>
 </html>

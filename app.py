@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import create_user, create_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker
+from models import create_user, create_worker_service, delete_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
@@ -71,21 +71,27 @@ def profile():
         return redirect('/login')
 
     servicios = []
-
     if session["role"] == "worker":
         servicios = get_services_by_worker(session["user_id"])
 
     user = get_user_by_id(session["user_id"])
 
     usuario = {
-    'nombre': user["name"],
-    'email': user["email"],
-    'telefono': user.get("phone"),
-    'tipo': user["role"],
-    'servicios_ofrecidos': len(servicios)
+        'nombre': user["name"],
+        'email': user["email"],
+        'telefono': user.get("phone"),
+        'tipo': user["role"],
+        'servicios_ofrecidos': len(servicios)
     }
 
-    return render_template('profile.html', usuario=usuario, servicios=servicios)
+    all_services = get_all_services()
+
+    return render_template(
+        'profile.html',
+        usuario=usuario,
+        servicios=servicios,
+        all_services=all_services
+    )
 
 # 🚪 LOGOUT
 @app.route('/logout')
@@ -127,6 +133,32 @@ def my_services():
     services = get_all_services()
 
     return render_template("servicios.html", services=services)
+
+@app.route('/add-service', methods=['POST'])
+def add_service():
+    if "user_id" not in session:
+        return redirect('/login')
+
+    service_id = request.form.get("service_id")
+    price = request.form.get("price")
+
+    if not service_id or not price:
+        return redirect('/profile')
+
+    create_worker_service(session["user_id"], service_id, price)
+
+    return redirect('/profile')
+
+@app.route('/delete-service', methods=['POST'])
+def delete_service():
+    if "user_id" not in session:
+        return redirect('/login')
+
+    service_id = request.form.get("service_id")
+
+    delete_worker_service(service_id, session["user_id"])
+
+    return redirect('/profile')
 
 # ▶️ RUN
 if __name__ == '__main__':
