@@ -1,10 +1,32 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, session, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import create_user, create_worker_service, delete_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker
+from models import create_user, create_worker_service, delete_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker, get_all_worker_services
+UPLOAD_FOLDER = 'Static/uploads/avatars'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload-avatar', methods=['POST'])
+def upload_avatar():
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    file = request.files.get('avatar')
+    if not file or not allowed_file(file.filename):
+        return redirect('/profile')
+
+    filename = f"user_{session['user_id']}.{file.filename.rsplit('.', 1)[1].lower()}"
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    file.save(os.path.join(UPLOAD_FOLDER, filename))
+
+    return redirect('/profile')
 # 🏠 HOME
 @app.route('/')
 def home():
@@ -82,12 +104,50 @@ def profile():
 
     all_services = get_all_services()
 
+    # Buscar avatar guardado localmente
+    avatar_path = None
+    for ext in ['jpg', 'jpeg', 'png', 'webp']:
+        path = f"static/uploads/avatars/user_{session['user_id']}.{ext}"
+        if os.path.exists(path):
+            avatar_path = '/' + path
+            break
+
     return render_template(
         'profile.html',
         usuario=usuario,
         servicios=servicios,
-        all_services=all_services
+        all_services=all_services,
+        avatar=avatar_path
     )
+    
+
+
+@app.route('/editprofile', methods=['GET', 'POST'])
+def edit_profile():
+    if "user_id" not in session:
+        return redirect('/login')
+
+    user = get_user_by_id(session["user_id"])
+
+    if not user:
+        return redirect('/login')
+
+    if request.method == 'POST':
+        nombre = request.form.get("nombre")
+        telefono = request.form.get("telefono")
+        email = request.form.get("email")
+
+        return redirect('/profile')
+
+    usuario = {
+        'nombre': user["name"],
+        'email': user["email"],
+        'telefono': user.get("phone"),
+        'tipo': user["role"],
+        'foto': user.get("foto")
+    }
+
+    return render_template('edit_profile.html', usuario=usuario)
 
 # 🚪 LOGOUT
 @app.route('/logout')
@@ -161,8 +221,8 @@ def cliente_dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    servicios = get_all_services()                      # ← NUEVO: carga los servicios
-    nombre = session.get("nombre", "Cliente")           # ← NUEVO: lee el nombre de sesión
+    servicios = get_all_worker_services()                    
+    nombre = session.get("nombre", "Cliente")           
 
     q = request.args.get('q', '').strip().lower()
     cat = request.args.get('cat', '').strip()

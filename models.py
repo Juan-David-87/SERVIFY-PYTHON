@@ -82,3 +82,23 @@ def delete_worker_service(service_id, worker_id):
     conn.commit()
     cursor.close()
     conn.close()
+
+def get_all_worker_services():
+    conn = get_connection()
+    cursor = conn.cursor()
+    sql = """
+    SELECT 
+        ws.id,
+        u.name      AS nombre,
+        s.name      AS tipo,
+        ws.price    AS precio,
+        u.phone     AS telefono
+    FROM worker_services ws
+    JOIN users    u ON ws.worker_id  = u.id
+    JOIN services s ON ws.service_id = s.id
+    """
+    cursor.execute(sql)
+    servicios = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return servicios

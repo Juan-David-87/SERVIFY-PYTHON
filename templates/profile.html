@@ -23,7 +23,13 @@
 <main class="main-profile">
 
     <div class="profile-hd">
-        <div class="avatar {{ usuario.tipo }}">{{ usuario.nombre[0] }}</div>
+
+        {% if avatar %}
+            <img src="{{ avatar }}" style="width:68px;height:68px;border-radius:16px;object-fit:cover;border:1px solid var(--border);">
+        {% else %}
+            <div class="avatar {{ usuario.tipo }}">{{ usuario.nombre[0] }}</div>
+        {% endif %}
+
         <div>
             <h2>{{ usuario.nombre }}</h2>
             <span class="badge {{ usuario.tipo }}">
@@ -31,11 +37,17 @@
             </span>
             <p class="email">{{ usuario.email }}</p>
         </div>
+
+        <form method="POST" action="/upload-avatar" enctype="multipart/form-data" style="display:flex;gap:8px;align-items:center;">
+            <input type="file" name="avatar" accept="image/*">
+            <button type="submit" class="btn btn-accent">Guardar foto</button>
+        </form>
+
     </div>
 
     <div class="stats">
         <div class="stat">
-            <div class="stat-n">{{ usuario.servicios_contratados }}</div>
+            <div class="stat-n">{{ usuario.servicios_contratados if usuario.servicios_contratados else '0' }}</div>
             <div class="stat-l">Contratados</div>
         </div>
         <div class="stat">
@@ -43,7 +55,7 @@
             <div class="stat-l">Ofrecidos</div>
         </div>
         <div class="stat">
-            <div class="stat-n">{{ usuario.calificacion }}</div>
+            <div class="stat-n">{{ usuario.calificacion if usuario.calificacion else '—' }}</div>
             <div class="stat-l">Calificación</div>
         </div>
     </div>
