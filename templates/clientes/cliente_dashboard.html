@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente - Servify</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --accent: #2eb8a0;
+            --accent-dim: rgba(46,184,160,.12);
+            --accent-glow: rgba(46,184,160,.25);
+            --surface: #ffffff;
+            --surface-raised: #f8faf9;
+            --border: rgba(0,0,0,.08);
+            --border-hover: rgba(46,184,160,.3);
+            --text-primary: #111;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --gold: #f59e0b;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,.1);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-hint {
+            font-size: .78rem;
+            color: var(--text-muted);
+            padding: 3px 10px;
+            background: var(--accent-dim);
+            border-radius: 20px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .btn-nav {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .82rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all .18s;
+        }
+
+        .btn-nav:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* ── LAYOUT ── */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            width: 100%;
+            gap: 0;
+            padding: 0;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 24px 20px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar-card {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0 0 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            background: var(--accent-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            border: 1.5px solid var(--accent-glow);
+            margin-bottom: 12px;
+        }
+
+        .user-name {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-sub {
+            font-size: .78rem;
+            color: var(--text-muted);
+        }
+
+        .sidebar-label {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .cat-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cat-list span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: var(--radius-sm);
+            font-size: .87rem;
+            color: var(--text-secondary);
+        }
+
+        .cat-list span.active {
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .cat-icon {
+            font-size: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .cat-count {
+            margin-left: auto;
+            font-size: .72rem;
+            background: var(--surface-raised);
+            padding: 2px 7px;
+            border-radius: 20px;
+            color: var(--text-muted);
+        }
+
+        /* ── MAIN CONTENT ── */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 28px 32px;
+            background: #f2f4f3;
+        }
+
+        /* ── HERO STRIP ── */
+        .hero-strip {
+            background: linear-gradient(135deg, var(--accent) 0%, #1a9980 100%);
+            border-radius: var(--radius-xl);
+            padding: 28px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-strip::before {
+            content: '';
+            position: absolute;
+            right: -30px; top: -40px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.06);
+        }
+
+        .hero-strip::after {
+            content: '';
+            position: absolute;
+            right: 60px; bottom: -60px;
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.04);
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .hero-text p {
+            font-size: .85rem;
+            color: rgba(255,255,255,.75);
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: var(--radius-md);
+            padding: 10px 18px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero-badge strong {
+            display: block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .hero-badge span {
+            font-size: .72rem;
+            color: rgba(255,255,255,.7);
+        }
+
+        /* ── SEARCH BAR ── */
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 6px 6px 6px 16px;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .search-icon {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .search-bar input::placeholder { color: var(--text-muted); }
+
+        .btn-search {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .84rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: opacity .18s, transform .12s;
+        }
+
+        .btn-search:hover { opacity: .88; transform: translateY(-1px); }
+        .btn-search:active { transform: translateY(0); }
+
+        .btn-clear {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .84rem;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .18s;
+        }
+
+        .btn-clear:hover { color: var(--text-primary); border-color: #ccc; }
+
+        /* ── SECTION HEADER ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: .82rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .result-count {
+            font-size: .78rem;
+            color: var(--text-muted);
+            background: var(--surface-raised);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* ── SERVICE CARDS ── */
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .service-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all .22s;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: transparent;
+            transition: background .22s;
+        }
+
+        .service-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .service-card:hover::before {
+            background: var(--accent);
+        }
+
+        .svc-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: var(--radius-md);
+            background: var(--accent-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            border: 1px solid var(--accent-glow);
+        }
+
+        .svc-body { flex: 1; min-width: 0; }
+
+        .svc-name {
+            font-size: .93rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .svc-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            font-size: .7rem;
+            font-weight: 500;
+            padding: 3px 9px;
+            border-radius: 6px;
+            background: var(--surface-raised);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .chip-accent {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent-glow);
+        }
+
+        .svc-rating {
+            font-size: .8rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .svc-avail {
+            font-size: .75rem;
+            color: #22c55e;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            flex-shrink: 0;
+        }
+
+        .btn-contratar {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .8rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all .18s;
+            flex-shrink: 0;
+        }
+
+        .btn-contratar:hover {
+            background: #1fa08a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(46,184,160,.3);
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 56px 24px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: .9rem;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 720px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                gap: 16px;
+            }
+            .sidebar { display: none; }
+            .hero-badge { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="/cliente" class="nav-logo">
+        <div class="nav-logo-icon">S</div>
+        <span class="nav-logo-text">Servify</span>
+    </a>
+
+    <div class="nav-actions">
+        <span class="nav-hint">Cliente</span>
+        <a href="/profile" class="btn-nav">Perfil</a>
+        <a href="/logout" class="btn-nav">Salir</a>
+    </div>
+</nav>
+
+<div class="page-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <!-- USER CARD -->
+        <div class="sidebar-card">
+            <div class="user-avatar">{{ nombre[0]|upper }}</div>
+            <div class="user-name">{{ nombre }}</div>
+            <div class="user-sub">Cliente Servify</div>
+        </div>
+
+        <!-- CATEGORÍAS -->
+        <div class="sidebar-card">
+            <div class="sidebar-label">Categorías</div>
+            <ul class="cat-list">
+                <li>
+                    <span class="active">
+                        <span class="cat-icon">🗂</span> Todos los servicios
+                        <span class="cat-count">{{ servicios|length }}</span>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <span class="cat-icon">🔌</span> Electricista
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <span class="cat-icon">🧹</span> Limpieza
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <span class="cat-icon">🛠</span> Reparaciones
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="content">
+
+        <!-- HERO -->
+        <div class="hero-strip">
+            <div class="hero-text">
+                <h1>¡Hola, {{ nombre }}!</h1>
+                <p>Encuentra el servicio que necesitas</p>
+            </div>
+            <div class="hero-badge">
+                <strong>{{ servicios|length }}</strong>
+                <span>disponibles</span>
+            </div>
+        </div>
+
+        <!-- BUSCADOR -->
+        <form method="GET" action="/cliente">
+            {% if request.args.get('cat') %}
+            <input type="hidden" name="cat" value="{{ request.args.get('cat') }}">
+            {% endif %}
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" name="q" value="{{ request.args.get('q','') }}" placeholder="Buscar por nombre o tipo de servicio...">
+                <button type="submit" class="btn-search">Buscar</button>
+                {% if request.args.get('q') %}
+                <a href="/cliente{% if request.args.get('cat') %}?cat={{ request.args.get('cat') }}{% endif %}" class="btn-clear">✕</a>
+                {% endif %}
+            </div>
+        </form>
+
+        <!-- SERVICIOS -->
+        <div>
+            <div class="section-header">
+                <span class="section-title">Servicios disponibles</span>
+                <span class="result-count">{{ servicios|length }} resultado{% if servicios|length != 1 %}s{% endif %}</span>
+            </div>
+
+            <div class="services-grid">
+                {% if servicios %}
+                    {% for s in servicios %}
+                    <div class="service-card">
+
+                        <div class="svc-icon">
+                            {% if s.tipo == 'Electricista' %}🔌
+                            {% elif s.tipo == 'Limpieza' %}🧹
+                            {% else %}🛠{% endif %}
+                        </div>
+
+                        <div class="svc-body">
+                            <div class="svc-name">{{ s.nombre }}</div>
+                            <div class="svc-meta">
+                                <span class="chip chip-accent">{{ s.tipo }}</span>
+                                <span class="svc-rating">★ {{ s.rating }}</span>
+                                <span class="svc-avail">
+                                    <span class="dot"></span>Disponible
+                                </span>
+                            </div>
+                        </div>
+
+                        <a href="/contratar/{{ s.id }}" class="btn-contratar">Contratar →</a>
+
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <p>No se encontraron servicios</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -973,3 +973,17 @@ section { padding: 100px 5%; }
     .auth-card    { padding: 32px 24px; }
     .row2         { grid-template-columns: 1fr; }
 }
+select {
+    background-color: var(--navy);
+    color: var(--w);
+}
+
+select option {
+    background-color: var(--navy);
+    color: var(--w);
+}
+.nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
