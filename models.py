@@ -102,3 +102,22 @@ def get_all_worker_services():
     cursor.close()
     conn.close()
     return servicios
+
+def update_user(user_id, name, email, phone):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    sql = """
+        UPDATE users
+        SET name = %s,
+            email = %s,
+            phone = %s
+        WHERE id = %s
+    """
+
+    cursor.execute(sql, (name, email, phone, user_id))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()

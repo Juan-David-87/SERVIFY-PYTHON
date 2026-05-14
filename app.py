@@ -2,7 +2,7 @@ import os
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, session, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import create_user, create_worker_service, delete_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker, get_all_worker_services
+from models import create_user, create_worker_service, delete_worker_service, get_all_services, get_user_by_email, get_user_by_id, get_services_by_worker, get_all_worker_services, update_user
 UPLOAD_FOLDER = 'Static/uploads/avatars'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
@@ -124,6 +124,7 @@ def profile():
 
 @app.route('/editprofile', methods=['GET', 'POST'])
 def edit_profile():
+
     if "user_id" not in session:
         return redirect('/login')
 
@@ -133,9 +134,19 @@ def edit_profile():
         return redirect('/login')
 
     if request.method == 'POST':
+
         nombre = request.form.get("nombre")
         telefono = request.form.get("telefono")
         email = request.form.get("email")
+
+        update_user(
+            session["user_id"],
+            nombre,
+            email,
+            telefono
+        )
+
+        session["nombre"] = nombre
 
         return redirect('/profile')
 
@@ -147,8 +158,10 @@ def edit_profile():
         'foto': user.get("foto")
     }
 
-    return render_template('edit_profile.html', usuario=usuario)
-
+    return render_template(
+        'edit_profile.html',
+        usuario=usuario
+    )
 # 🚪 LOGOUT
 @app.route('/logout')
 def logout():

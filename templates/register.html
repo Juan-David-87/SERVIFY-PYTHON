@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SERVIFY — Registro</title>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 
 <nav>
-    <a class="logo" href="/"><div class="logo-icon">🛠</div><span class="logo-text">SERVIFY</span></a>
+    <a class="logo" href="/">
+        <div class="logo-icon">🛠</div>
+        <span class="logo-text">SERVIFY</span>
+    </a>
+
     <div class="nav-actions">
         <span class="nav-hint">¿Ya tienes cuenta?</span>
         <a href="/login" class="btn-nav btn-nav-accent">Iniciar sesión</a>
@@ -20,71 +25,169 @@
 <main class="main-center">
     <div class="auth-wrapper">
         <div class="auth-card">
+
             {% if registrado %}
-                <div class="success-box">
-                    <div class="success-icon">✓</div>
-                    <h2>¡Registro exitoso!</h2>
-                    <p>Bienvenido, <strong>{{ nombre }}</strong></p>
-                    <p>Registrado como <strong>{{ tipo_usuario }}</strong></p>
-                    <p>{{ email }}</p>
-                    <div class="success-actions">
-                        <a href="/login" class="btn btn-accent">Iniciar sesión</a>
-                        <a href="/" class="btn btn-ghost">Ir al inicio</a>
-                    </div>
+
+            <div class="success-box">
+                <div class="success-icon">✓</div>
+
+                <h2>¡Registro exitoso!</h2>
+
+                <p>
+                    Bienvenido,
+                    <strong>{{ nombre }}</strong>
+                </p>
+
+                <p>
+                    Registrado como
+                    <strong>
+                        {% if tipo_usuario == "worker" %}
+                            Trabajador
+                        {% elif tipo_usuario == "client" %}
+                            Cliente
+                        {% else %}
+                            {{ tipo_usuario }}
+                        {% endif %}
+                    </strong>
+                </p>
+
+                <p>{{ email }}</p>
+
+                <div class="success-actions">
+                    <a href="/login" class="btn btn-accent">
+                        Iniciar sesión
+                    </a>
+
+                    <a href="/" class="btn btn-ghost">
+                        Ir al inicio
+                    </a>
                 </div>
+            </div>
+
             {% else %}
-                <div class="card-header">
-                    <h1>Crear cuenta</h1>
-                    <p>Únete a SERVIFY gratis</p>
-                </div>
-                <form method="POST">
-                    <div class="row2">
-                        <div class="fg">
-                            <label>Nombre</label>
-                            <input type="text" name="name" required placeholder="Tu nombre">
-                        </div>
-                        <div class="fg">
-                            <label>Teléfono</label>
-                            <input type="text" name="phone" required placeholder="+57 312...">
-                        </div>
-                    </div>
+
+            <div class="card-header">
+                <h1>Crear cuenta</h1>
+                <p>Únete a SERVIFY gratis</p>
+            </div>
+
+            <form method="POST">
+
+                <div class="row2">
+
                     <div class="fg">
-                        <label>Correo electrónico</label>
-                        <input type="email" name="email" required placeholder="ejemplo@correo.com">
+                        <label>Nombre</label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            required
+                            placeholder="Tu nombre"
+                        >
                     </div>
+
                     <div class="fg">
-                        <label>Tipo de usuario</label>
-                        <div class="radio-group">
-                            <label class="radio-opt">
-                                <input type="radio" name="tipo_usuario" value="cliente" checked> Cliente
-                            </label>
-                            <label class="radio-opt">
-                                <input type="radio" name="tipo_usuario" value="trabajador"> Trabajador
-                            </label>
-                        </div>
+                        <label>Teléfono</label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            required
+                            placeholder="+57 312..."
+                        >
                     </div>
-                    <div class="row2">
-                        <div class="fg">
-                            <label>Contraseña</label>
-                            <input type="password" name="password" required placeholder="••••••••">
-                        </div>
-                        <div class="fg">
-                            <label>Confirmar</label>
-                            <input type="password" name="confirm_password" required placeholder="••••••••">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-submit">Crear cuenta</button>
-                </form>
-                <div class="auth-footer">
-                    <a href="/login" class="link-accent">Ya tengo cuenta</a>
-                    <a href="/" class="link-muted">← Inicio</a>
+
                 </div>
+
+                <div class="fg">
+                    <label>Correo electrónico</label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="ejemplo@correo.com"
+                    >
+                </div>
+
+                <div class="fg">
+                    <label>Tipo de usuario</label>
+
+                    <div class="radio-group">
+
+                        <label class="radio-opt">
+                            <input
+                                type="radio"
+                                name="tipo_usuario"
+                                value="client"
+                                checked
+                            >
+                            Cliente
+                        </label>
+
+                        <label class="radio-opt">
+                            <input
+                                type="radio"
+                                name="tipo_usuario"
+                                value="worker"
+                            >
+                            Trabajador
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="row2">
+
+                    <div class="fg">
+                        <label>Contraseña</label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            placeholder="••••••••"
+                        >
+                    </div>
+
+                    <div class="fg">
+                        <label>Confirmar contraseña</label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            required
+                            placeholder="••••••••"
+                        >
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Crear cuenta
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+                <a href="/login" class="link-accent">
+                    Ya tengo cuenta
+                </a>
+
+                <a href="/" class="link-muted">
+                    ← Inicio
+                </a>
+            </div>
+
             {% endif %}
+
         </div>
     </div>
 </main>
 
-<footer class="footer">© 2026 SERVIFY — Todos los derechos reservados</footer>
+<footer class="footer">
+    © 2026 SERVIFY — Todos los derechos reservados
+</footer>
 
 </body>
 </html>
